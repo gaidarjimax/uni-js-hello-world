@@ -36,37 +36,54 @@ class Customer{
 }
 
 class Event{
-    constructor( title, hasFreeAccess )
+    constructor( title, hasFreeAccess, price )
     {
         this.title          = title;
         this.hasFreeAccess  = hasFreeAccess;
         this.guid           = generateGuid();   
+        this.price          = price;
         this.customers      = [];
     }
 
-    toString(){
+    toString()
+    {
         var str = this.title;
-        str += this.hasFreeAccess ? ' : 18+' : '';
+        str = this.hasFreeAccess ? '#' + str : '*' + str + ' : 18+';
+        str = this.price ? '$' + str : '!' + str;
         return str;
     }
 
-    static fact( title, hasFreeAccess ){
-        if( ! Event.validate( title, hasFreeAccess ) ){
-            console.log( 'Invalid event data' );
-            return;
-        }
-        if( hasFreeAccess == undefined )
-            hasFreeAccess   = true;
-
-        if( title instanceof Event )
-            return new Event( title.title, title.hasFreeAccess )
-
-        return new Event( title, hasFreeAccess )
+    addDate( date )
+    {
+        if( ! date instanceof Date )
+            return false;
+        this.addDate = date; 
+        return true;
     }
 
-    static validate( title, hasFreeAccess ) {
+    static fact( title, hasFreeAccess, price )
+    {
+        if( ! Event.validate( title, price ) ){
+            console.log( 'Invalid event data' );
+            return false;
+        }
+        if( hasFreeAccess == undefined )
+            hasFreeAccess = true;
+
+        if( price == undefined )
+            price = 0;
+
+        if( title instanceof Event )
+            return new Event( title.title, title.hasFreeAccess, title.price )
+
+        return new Event( title, hasFreeAccess, price )
+    }
+
+    static validate( title ) 
+    {
         if( title instanceof Event )
             return true;
+
         if( !( typeof title == 'string' || title instanceof String ) )
             return false; 
         

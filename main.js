@@ -12,6 +12,7 @@ class EventMan{
         }
         return false;
     }
+
     addCustomer( evGuid, customer )
     {
         if( !( typeof evGuid == 'string' || evGuid instanceof String ) )
@@ -44,11 +45,18 @@ class EventMan{
         return true;
     }
 
-    resetUI()
+    //Pass here i => i.hasFreeAccess to show events with free access, 
+    //or any other predicate to filter by other criteria. 
+    resetUI( callback )
     {
+        var events = this.events;
+
+        if( callback != undefined )
+            events = events.filter( callback );
+
         var innerHtml = '';
 
-        this.events.forEach( element =>{
+        events.map( element =>{
             innerHtml += '<li><div style="display:flex; flex-direction : row" class="eventDiv" id="' 
                       + element.guid + '"><p>' 
                       + element.toString() + '<p><button>Delete</button></div></li>'
@@ -72,13 +80,14 @@ class EventMan{
 
 var evMan = new EventMan();
 
-evMan.add( Event.fact( 'edsasa', true ) );
-evMan.add( Event.fact( 'edfasa', false ) );
-evMan.add( Event.fact( 'edavsa', true ) );
-evMan.add( Event.fact( 'edaadsa', true ) );
-evMan.add( Event.fact( 'edaafasa', false ) );
-evMan.add( Event.fact( 'edasa', true ) );
-evMan.add( Event.fact( 'edasa', false ) );
+evMan.addEvent( Event.fact( 'edsasa', true, 12 ) );
+evMan.addEvent( Event.fact( 'edfasa', false ) );
+evMan.addEvent( Event.fact( 'edavsa', true, 433 ) );
+evMan.addEvent( Event.fact( 'edaadsa', true ) );
+evMan.addEvent( Event.fact( 'edaafasa', false, 656 ) );
+evMan.addEvent( Event.fact( 'edasa', true ) );
+evMan.addEvent( Event.fact( 'edasa', false ) );
+
 
 
 
