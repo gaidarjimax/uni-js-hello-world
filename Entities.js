@@ -52,6 +52,7 @@ class Event{
         var str = this.title;
         str = this.hasFreeAccess ? '#' + str : '*' + str + ' : 18+';
         str = this.price ? '$' + str : '!' + str;
+        str = this.full ? '~' + str : str;
         return str;
     }
 
