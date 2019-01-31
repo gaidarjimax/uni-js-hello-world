@@ -5,6 +5,7 @@ class Customer{
         this.name   = name;
         this.age    = age;
         this.gender = gender;
+        this.wallet = 1000;
         this.guid   = generateGuid();
     }
 
@@ -43,6 +44,7 @@ class Event{
         this.guid           = generateGuid();   
         this.price          = price;
         this.customers      = [];
+        this.maxPeople      = 10;
     }
 
     toString()

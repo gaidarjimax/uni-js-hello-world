@@ -23,10 +23,24 @@ class EventMan{
         if( ev == undefined || ! Customer.validate( customer ) )
             return false;
 
+        if( ev.maxPeople == ev.customers.length )
+        {
+            ev.full = true;
+            return;
+        }
+        
         if( ! ev.hasFreeAccess && customer.age < 18 )
             return false;
+        
+        if( Number.isInteger( this.price ) )
+            customer.wallet -= this.price;
 
-        ev.customers.push( customer ); 
+        if( customer.wallet <= 0 )
+        {
+            customer.wallet = 0;
+            return false;
+        }
+        ev.customers.push( customer.guid ); 
 
         return true;
     }
@@ -65,7 +79,7 @@ class EventMan{
         var arr = document.getElementsByClassName( 'eventDiv' );
         document.getElementById( 'eventList' ).innerHTML = innerHtml;
 
-        Array.from( arr ).forEach( i => {
+        Array.from( arr ).map( i => {
             i.click( i => this.remove( i.id ) )
         } )
     }
